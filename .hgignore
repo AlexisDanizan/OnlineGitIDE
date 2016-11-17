@@ -6,3 +6,5 @@ target
 .project
 .DS_Store
 API/repositories
+nb-configuration.xml
+sonar-project.properties
