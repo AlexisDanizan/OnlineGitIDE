@@ -1,0 +1,8 @@
+syntax: glob
+target
+*.iml
+.idea
+.classpath
+.project
+.DS_Store
+API/repositories
