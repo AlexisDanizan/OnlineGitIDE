@@ -1,0 +1,105 @@
+package Controller;
+
+import Model.User;
+import Service.UserService;
+import Service.UserServiceImpl;
+import Util.Constantes;
+import Util.Status;
+import Util.Util;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
+
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+
+    private UserService userService;
+
+    @PostConstruct
+    public void init(){
+        userService = new UserServiceImpl();
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<User> add(
+                                @RequestParam(value="username") String username,
+                                @RequestParam(value="mail") String mail,
+                                @RequestParam(value="password") String password){
+        User user;
+
+        try{
+            user = userService.addEntity(mail, username,password);
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<User> get(@RequestParam(value="username") String username,
+                                                  @RequestParam(value = "password") String passwd){
+
+
+        User user;
+
+        try{
+            user = userService.authEntity(username,passwd);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+    }
+
+
+    @RequestMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<String> get(@RequestParam(value="mail") String mail){
+        User user;
+
+        try{
+            user = userService.getEntityByMail(mail);
+        }catch(Exception ex){
+            return new ResponseEntity<>(Util.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
+                    ex.getMessage())), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(Util.convertToJson(user), HttpStatus.ACCEPTED);
+    }
+
+
+    @RequestMapping(value = "/getall", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<List<User>> getAll(){
+        List<User> users;
+
+        try{
+            users = userService.getEntityList();
+        }catch(Exception ex){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(users, HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/remove", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Status> remove(@RequestParam(value="idUser") Long idUser){
+
+        try{
+            userService.deleteEntity(idUser);
+        }catch(Exception ex){
+            return new ResponseEntity<>(new Status(Constantes.OPERATION_CODE_RATE,
+                    ex.getMessage()), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new Status(Constantes.OPERATION_CODE_REUSSI,
+                Constantes.OPERATION_MSG_REUSSI), HttpStatus.ACCEPTED);
+    }
+
+}
