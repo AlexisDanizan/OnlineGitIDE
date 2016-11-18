@@ -19,6 +19,13 @@ public class Compile {
 
     public String executeCompilation(UserGrant userGrant, User currentUser) throws InterruptedException, IOException {
         // params {propOfProject : mahmoud , projectName : appTest , currentUser : user}
+
+
+        //besoin de currentProject,currentUser,
+
+
+
+
         this.executeAction(Constantes.COMPILE_CLONE, "mahmoud", "appTest", "user");  // 1 - CLONE
         // 2 - update Project Files
         this.executeAction(Constantes.COMPILE_COMPILE, "mahmoud", "appTest", "user"); // 3 - COMPILATION
@@ -65,6 +72,13 @@ public class Compile {
         if (action.toString().equals(Constantes.COMPILE_CLEAN)) {
             p1 = rt.exec("./clean.sh " + userName);
         }
+    }
+
+    public void getTempFiles()
+    {
+        //get all files from BD by User and Project
+        //for each file cp to cloneRepository () and file(PATH)
+
     }
 
 
