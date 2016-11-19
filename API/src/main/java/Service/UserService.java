@@ -9,9 +9,10 @@ import java.util.List;
  * Created by amaia.nazabal on 10/19/16.
  */
 public interface UserService {
-    Long addEntity(String pseudo, String mail, String hashkey) throws DataException;
+    User addEntity(String pseudo, String mail, String hashkey) throws DataException;
     User getEntityByMail(String mail) throws DataException;
     User getEntityById(Long id) throws DataException;
-    List getEntityList() throws Exception;
-    boolean deleteEntity(String mail) throws Exception;
+    List getEntityList() throws DataException;
+    boolean deleteEntity(Long idUser) throws DataException;
+    User authEntity(String username,String password) throws DataException;
 }

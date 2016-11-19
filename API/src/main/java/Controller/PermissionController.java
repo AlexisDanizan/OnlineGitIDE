@@ -5,9 +5,9 @@ import Model.User;
 import Model.UserGrant;
 import Service.UserGrantService;
 import Service.UserGrantServiceImpl;
-import Util.DataException;
-import Util.*;
-import org.json.JSONObject;
+import Util.Constantes;
+import Util.JsonUtil;
+import Util.Status;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-
 /**
  * Created by amaia.nazabal on 11/16/16.
  */
@@ -28,17 +27,18 @@ public class PermissionController {
     private UserGrantService userGrantService;
 
     @RequestMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<String> add(@RequestParam(value = "idProject") Long idProject,
-                                                    @RequestParam(value = "idUser") Long idUser){
+    public @ResponseBody
+    ResponseEntity<String> add(@RequestParam(value = "idProject") Long idProject,
+                               @RequestParam(value = "idUser") Long idUser){
         try {
             userGrantService.addEntity(idUser, idProject, UserGrant.Permis.Dev);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity(Util.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
+            return new ResponseEntity<>(JsonUtil.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
                     e.getMessage())), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity(Util.convertToJson(new Status(Constantes.OPERATION_CODE_REUSSI,
+        return new ResponseEntity<>(JsonUtil.convertToJson(new Status(Constantes.OPERATION_CODE_REUSSI,
                 Constantes.OPERATION_MSG_REUSSI)), HttpStatus.ACCEPTED);
     }
 
@@ -49,11 +49,11 @@ public class PermissionController {
              developers = userGrantService.getDevelopersByEntity(idProject);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity(Util.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
+            return new ResponseEntity<>(JsonUtil.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
                     e.getMessage())), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity(Util.convertListToJson(developers), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(JsonUtil.convertListToJson(developers), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/getadmin", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,26 +63,26 @@ public class PermissionController {
             user = userGrantService.getAdminByEntity(idProject);
         }catch(Exception ex){
             ex.printStackTrace();
-            return new ResponseEntity(Util.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
+            return new ResponseEntity<>(JsonUtil.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
                     Constantes.OPERATION_MSG_RATE)), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity(Util.convertToJson(user), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(JsonUtil.convertToJson(user), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/getprojects", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<String> getprojects(@RequestParam(value = "mail") String mail){
+    public @ResponseBody ResponseEntity<String> getprojects(@RequestParam(value = "user") Long idUser){
         List<Project> projects;
 
         try{
-            projects = userGrantService.getProjectsByEntity(mail);
+            projects = userGrantService.getProjectsByEntity(idUser);
         }catch (Exception ex) {
             ex.printStackTrace();
-            return new ResponseEntity(Util.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
+            return new ResponseEntity<>(JsonUtil.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
                     Constantes.OPERATION_MSG_RATE)), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity(Util.convertListToJson(projects), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(JsonUtil.convertListToJson(projects), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/has", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -93,14 +93,11 @@ public class PermissionController {
             permission = userGrantService.hasPermission(idUser, idProject);
         }catch (Exception ex) {
             ex.printStackTrace();
-            return new ResponseEntity(Util.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
+            return new ResponseEntity<>(JsonUtil.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
                     Constantes.OPERATION_MSG_RATE)), HttpStatus.NOT_FOUND);
         }
 
-        JSONObject result = new JSONObject();
-        result.put("permission", permission);
-
-        return new ResponseEntity(result.toString(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(JsonUtil.convertStringToJson("permission", permission + ""), HttpStatus.ACCEPTED);
     }
 
 

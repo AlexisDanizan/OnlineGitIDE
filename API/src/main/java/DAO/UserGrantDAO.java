@@ -4,7 +4,6 @@ import Model.User;
 import Model.UserGrant;
 import Util.DataException;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public interface UserGrantDAO {
     boolean addEntity(UserGrant grant) throws DataException;
-    List getProjectsByEntity (User user) throws DataException;
+    List<UserGrant> getProjectsByEntity (User user) throws DataException;
     List getDevelopersByEntity(Long idProject) throws DataException;
     UserGrant getAdminByEntity(Long idProject) throws DataException;
     UserGrant getEntityById(Long idUser, Long idProject) throws DataException;

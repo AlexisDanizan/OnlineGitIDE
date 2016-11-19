@@ -1,7 +1,5 @@
 package DAO;
 
-import Service.APIService;
-
 import javax.persistence.EntityManager;
 
 /**
@@ -16,12 +14,15 @@ public class DAO {
 
     public EntityManager getEntityManager(){
         if (em == null || !em.isOpen()){
-            em = APIService.entityManagerFactory.createEntityManager();
+            em = EntityFactoryManager.getEntityManagerFactory()
+                    .createEntityManager();
         }
         return em;
     }
 
     public void closeEntityManager(){
-        em.close();
+        if (em.isOpen()){
+            em.close();
+        }
     }
 }

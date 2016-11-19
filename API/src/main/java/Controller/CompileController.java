@@ -27,11 +27,11 @@ public class CompileController {
         try {
             System.out.println("compile");
         } catch (Exception ex) {
-            return new ResponseEntity<String>(Util.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
+            return new ResponseEntity<String>(JsonUtil.convertToJson(new Status(Constantes.OPERATION_CODE_RATE,
                     ex.getMessage())), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<String>(Util.convertToJson("response"), HttpStatus.OK);
+        return new ResponseEntity<String>(JsonUtil.convertToJson("response"), HttpStatus.OK);
     }
 
 }

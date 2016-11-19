@@ -1,7 +1,7 @@
 package DAO;
 
 import Model.Project;
-import Service.APIService;
+import Model.User;
 import Util.DataException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -28,10 +28,11 @@ import static org.junit.Assert.*;
 public class ProjectDAOTest {
     private ProjectDAO projectDAO = new ProjectDAOImpl();
     private static Project project = new Project();
+    private static User user = new User();
 
     @BeforeClass
     public static void setUpBeforeClass() throws DataException {
-        APIService.persistance();
+        EntityFactoryManager.persistance();
 
         project.setName("project-test");
         project.setCreationDate(new Date());
@@ -62,7 +63,6 @@ public class ProjectDAOTest {
         try {
             proj = projectDAO.getEntityById(project.getId());
         } catch (Exception e) {
-            e.printStackTrace();
             exception = e;
         }
 
@@ -78,8 +78,8 @@ public class ProjectDAOTest {
     @Test
     public void getEntityList() {
         Exception exception = null;
-        Project proj;
         List<Project> projectList = new ArrayList();
+        Project proj;
 
         try {
             projectList = projectDAO.getEntityList();
@@ -109,7 +109,6 @@ public class ProjectDAOTest {
         try {
             projectDAO.deleteEntity(project);
         } catch (Exception e) {
-            e.printStackTrace();
             exception = e;
         }
 
@@ -134,6 +133,6 @@ public class ProjectDAOTest {
 
     @AfterClass
     public static void tearDownAfterClass(){
-        APIService.close();
+        EntityFactoryManager.close();
     }
 }

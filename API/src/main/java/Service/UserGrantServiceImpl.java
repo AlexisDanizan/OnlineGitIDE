@@ -10,20 +10,27 @@ import Util.DataException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by amaia.nazabal on 11/15/16.
  */
 public class UserGrantServiceImpl implements UserGrantService{
     private UserGrantDAO userGrantDAO = new UserGrantDAOImpl();
-
+    private static final Logger LOGGER = Logger.getLogger( UserGrantServiceImpl.class.getName() );
     public UserGrantServiceImpl(){
     }
 
     public boolean addEntity(Long idUser, Long idProject, UserGrant.Permis type) throws DataException {
         UserGrant grant;
 
-        grant = getEntityById(idUser, idProject);
+        try {
+            grant = getEntityById(idUser, idProject);
+        }catch (Exception e ){
+            LOGGER.log( Level.FINE, e.toString(), e);
+            grant = null;
+        }
 
         if (grant == null) {
             UserService userService = new UserServiceImpl();
@@ -31,9 +38,9 @@ public class UserGrantServiceImpl implements UserGrantService{
 
             User user = userService.getEntityById(idUser);
 
-
             Project project = projectService.getEntityById(idProject);
 
+            System.out.println(project);
             grant = new UserGrant();
             grant.setUser(user);
             grant.setProject(project);
@@ -45,16 +52,17 @@ public class UserGrantServiceImpl implements UserGrantService{
         return true;
     }
 
-    public List getProjectsByEntity(String mail) throws DataException {
-        List<Project> projects = new ArrayList();
+    public List<Project> getProjectsByEntity(Long id) throws DataException {
+        List<Project> projects = new ArrayList<Project>();
         ProjectService projectService = new ProjectServiceImpl();
         UserService userService = new UserServiceImpl();
         Iterator<UserGrant> iterator;
         User user;
 
         try{
-            user = userService.getEntityByMail(mail);
+            user = userService.getEntityById(id);
         }catch(Exception ex) {
+            LOGGER.log( Level.FINE, ex.toString(), ex);
             throw new DataException("User doesn't have any project");
         }
 
@@ -65,7 +73,7 @@ public class UserGrantServiceImpl implements UserGrantService{
                         .getProject().getId()));
             }
         }catch (Exception e){
-            e.printStackTrace();
+            LOGGER.log( Level.FINE, e.toString(), e);
         }
 
 

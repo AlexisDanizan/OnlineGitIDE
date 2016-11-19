@@ -8,11 +8,12 @@ import java.util.Date;
  * Created by amaia.nazabal on 10/21/16.
  */
 @Entity
+@NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p ")
 public class Project implements Serializable {
     public enum TypeProject {JAVA, MAVEN, C, CPP}
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -36,7 +37,6 @@ public class Project implements Serializable {
     public Project(){
 
     }
-
 
     public Project(String name, String version, TypeProject type, String root) {
         this.name = name;
