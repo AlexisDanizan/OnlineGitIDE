@@ -16,4 +16,11 @@ public interface TemporaryFileService {
     TemporaryFile addEntity(Long idUser, String content, String path, Long idProject)
             throws DataException;
     boolean deleteEntity(Long idFileTemporary) throws DataException;
+
+    /**
+     * Permet de supprimer une liste de TemporaryFile
+     * @param list Liste des objets à supprimer
+     * @throws Exception
+     */
+    boolean deleteAllEntity(List<TemporaryFile> list) throws DataException;
 }
