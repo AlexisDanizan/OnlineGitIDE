@@ -1,0 +1,82 @@
+/* Feuille de style home.jsp */
+
+BODY{
+    margin-top:65px;
+}
+
+#divProjets{
+    margin-bottom:20px;
+}
+
+.h2DivProjet, #h2DivCommit, #h2DivCollaboration{
+    display:inline;
+    vertical-align:top;
+    margin-right:10px;
+}
+
+.titreSection{
+    margin-bottom:25px;
+}
+
+#panelDeroulant{
+    position:fixed;
+    background-color:#449d44;
+    color:#fff;
+    min-height:100%;
+    padding:10px;
+    top:51px;
+    width:20%;
+    right:-20%;
+    z-index:10;
+}
+
+#ancrePanel{
+    position:fixed;
+    padding:25px;
+    border-radius: 200px 10px 10px 200px;
+    margin-right:-10px;
+    font-size:x-large;
+    background-color:#449d44;
+    color:#fff;
+    top: 43vh;
+    right:0;
+    cursor:pointer;
+    z-index:10;
+}
+
+#chevronAncre{
+    line-height:80px;
+}
+
+#nomProjet, #selectProjet, #mailAjoutCollaborateur{
+    width:60%;
+    display:block;
+    margin:auto;
+    margin-bottom:10px;
+    text-align:center;
+}
+
+
+
+.labelProjet{
+    display:block;
+}
+
+#formProjet, #formAjoutCollaborateur{
+    width:100%;
+    margin:auto;
+    text-align:center;
+}
+
+.spanSupprimerProjet{
+    color:#F00;
+}
+
+.nomListeProjets, .nomListeCollaborations{
+    width:200px;
+}
+
+.ligneListeProjet, .ligneListeCollaborations{
+    margin-bottom:10px;
+}
+
