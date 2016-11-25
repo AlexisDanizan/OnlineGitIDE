@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "TemporaryFile.findByHashkey", query = "SELECT f from TemporaryFile f WHERE f.hashKey = :hashKey"),
+        // FIXME: named query correct ? à supprimer ?
         @NamedQuery(name = "TemporaryFile.findByIdAndUser", query = "SELECT f from TemporaryFile f WHERE f.user = :user AND f.hashKey = :hashKey"),
         @NamedQuery(name = "TemporaryFile.findByUserAndProject", query = "SELECT t FROM TemporaryFile t WHERE t.user = :user AND t.project = :project")
 })
@@ -50,12 +51,11 @@ public class TemporaryFile implements Serializable {
      * Constructeur du temporaryFile
      *
      * @param user    utilisateur proprietaire du fichier
-     * @param hashKey du fichier
      * @param content du fichier
      * @param project associé au fichier
      * @param path    dans le dépôt
      */
-    public TemporaryFile(User user, String hashKey, String content, Project project,
+    public TemporaryFile(User user, String content, Project project,
                          String path) {
         String raw = user.getIdUser().toString() +
                 project.getIdProject().toString() +
