@@ -63,7 +63,7 @@ public class FileController {
         }
 
         TemporaryFile newTempFile, oldTempFile;
-        newTempFile = new TemporaryFile(user, "", content, project, path);
+        newTempFile = new TemporaryFile(user, content, project, path);
 
         // recuperation du TemporaryFile correspondant éventuellement déjà présent dans la table
         try {
@@ -79,7 +79,7 @@ public class FileController {
         if(oldTempFile == null) {
             try {
                 // on l'ajoute avec le contenu temporaire
-                temporaryFileService.addEntity(longIdCurrentUser, "", content, path, longIdRepository);
+                temporaryFileService.addEntity(longIdCurrentUser, content, path, longIdRepository);
             } catch (DataException e) {
                 e.printStackTrace();
                 e.printStackTrace();
