@@ -1,0 +1,19 @@
+syntax: glob
+target
+*.iml
+Application.iml
+.DS_Store
+Multimif.iml
+API.iml
+.idea
+.idea/*
+*.orig
+.classpath
+.project
+nb-configuration.xml	
+API/repositories
+sonar-project.properties
+API/src/main/webapp/zipFiles/*.zip
+API/clone
+API/src/main/resources/META-INF/*
+
