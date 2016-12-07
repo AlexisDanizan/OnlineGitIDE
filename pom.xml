@@ -26,7 +26,7 @@
                 <version>2.2</version>
                 <configuration>
 
-                    <port>8080</port>
+                    <port>8090</port>
                     <!-- <addContextWarDependencies>true</addContextWarDependencies>
                     <addWarDependenciesInClassloader>true</addWarDependenciesInClassloader>
                     <warDirectory>${project.build.directory}/war/</warDirectory>
